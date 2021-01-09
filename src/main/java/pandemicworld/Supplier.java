@@ -24,4 +24,7 @@ public class Supplier extends Person{
     public void getPath(Position from, Position to, Street road) {
         
     }
+    public Car getCar(){
+        return car;
+    }
 }

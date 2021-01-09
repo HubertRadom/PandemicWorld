@@ -1,0 +1,110 @@
+package pandemicworld;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+public class ClientThread extends Thread {
+    private Client client;
+    private ArrayList<ArrayList>adjacency;
+    private ArrayList<RetailShop>retailShopList;
+    private HashMap<String, Street>sidewalkMap;
+    private HashMap<String, ImageIcon>images;
+    private int from, to;
+    private Street currentSidewalk;
+    //private Street nextStreet;
+    private boolean next = false;
+    private JLabel icon;
+
+    public ClientThread(Client client, ArrayList<ArrayList>adjacency, HashMap<String, Street>sidewalkMap, int from, int to, ArrayList<RetailShop>retailShopList, 
+            JLabel icon, HashMap<String, ImageIcon>images) {
+        this.client = client;
+        this.adjacency = adjacency;
+        this.sidewalkMap = sidewalkMap;
+        this.from = from;
+        this.to = to;
+        this.retailShopList = retailShopList;
+        this.icon = icon;
+        this.images = images;
+
+        Paint paint = new Paint();
+        paint.start();   
+    }
+
+    public JLabel getIcon(){
+        return icon;
+    }
+    
+    public Client getClient(){
+        return client;
+    }
+    
+
+    @Override
+    public void run() {
+        while(true){
+
+            if(next == true){
+
+                currentSidewalk = sidewalkMap.get("x " + Integer.toString(to));
+                next = false;
+
+            } else if(adjacency.get(from).get(to).equals(1)){       
+
+                currentSidewalk = sidewalkMap.get(Integer.toString(from)+ " " + Integer.toString(to));
+
+            } else {
+
+                next = true;
+                currentSidewalk = sidewalkMap.get(Integer.toString(from)+ " x");
+
+            } 
+
+
+            client.travel(currentSidewalk);
+
+            //next shop
+            if(next==false){
+
+                try {
+                    client.buy(retailShopList.get(to),2);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                from = to;
+                to = client.nextShop();
+
+            }
+
+        }
+
+    }
+
+    class Paint extends Thread {
+        @Override
+        public void run() {
+            while(true){
+                icon.setBounds(client.getPosition().getX()-(32/2), client.getPosition().getY()-(32/2),32,32);
+                
+                if(client.getMask() == true){
+                    if(client.getSick() == true){
+                        icon.setIcon(images.get("sickMaskImage"));
+                    } else{
+                        icon.setIcon(images.get("healthyMaskImage"));
+                    }
+                } else {
+                    if(client.getSick() == true){
+                        icon.setIcon(images.get("sickImage"));
+                    } else {
+                        icon.setIcon(images.get("healthyImage"));
+                    }
+                }
+                
+                sleep(20);
+            }
+        }
+    }
+}

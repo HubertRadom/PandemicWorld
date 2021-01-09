@@ -1,32 +1,35 @@
 package pandemicworld;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Shop implements Object {
+public class Shop {
     private String name;
     private String address;
-    private int clientCapacity;
     private int storageCapacity;
     private boolean lockdown;
-    private List<Product>currentSupply;
+    private ArrayList<Product>currentSupply = new ArrayList<Product>();
     private Position position;
     
-    Shop(Position p, String n, String a, int cc, int sc) {
-        name = n;
-        address = a;
-        clientCapacity = cc;
-        storageCapacity = sc;
-        position = p;
+    Shop(Position position, String name, String address, int storageCapacity) {
+        this.name = name;
+        this.address = address;
+        this.storageCapacity = storageCapacity;
+        this.position = position;
+       // currentSupply = new ArrayList<Product>();
+    }
+    public ArrayList<Product> getCurrentSupply(){
+        return currentSupply;
     }
     
     public void checkDate() {
         
     }
-    public void removeProduct() {
-        
+    public void removeProduct(Product product) {
+        currentSupply.remove(product);
     }
-    public void addProduct() {
-    
+    public void addProduct(Product product) {
+        currentSupply.add(product);
     }
     public void lockdown() {
     
@@ -34,8 +37,11 @@ public class Shop implements Object {
     public void draw() {
         
     }
+    
     public Position getPosition(){
         return position;
     }
+    
+
 
 }

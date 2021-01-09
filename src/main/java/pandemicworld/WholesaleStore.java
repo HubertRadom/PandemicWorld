@@ -2,8 +2,8 @@ package pandemicworld;
 
 class WholesaleStore extends Shop {
 
-    public WholesaleStore(Position c, String n, String a, int cc, int sc) {
-        super(c, n, a, cc, sc);
+    public WholesaleStore(Position position, String name, String address, int storageCapacity) {
+        super(position, name, address, storageCapacity);
     }
     public void createProduce(Shop shop) {
         
