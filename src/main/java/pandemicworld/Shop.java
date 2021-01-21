@@ -9,13 +9,13 @@ public class Shop {
     private int storageCapacity;
     private boolean lockdown;
     private ArrayList<Product>currentSupply = new ArrayList<Product>();
-    private Position position;
+    private Position exit;
     
-    Shop(Position position, String name, String address, int storageCapacity) {
+    Shop(Position exit, String name, String address, int storageCapacity) {
         this.name = name;
         this.address = address;
         this.storageCapacity = storageCapacity;
-        this.position = position;
+        this.exit = exit;
        // currentSupply = new ArrayList<Product>();
     }
     public ArrayList<Product> getCurrentSupply(){
@@ -31,17 +31,22 @@ public class Shop {
     public void addProduct(Product product) {
         currentSupply.add(product);
     }
-    public void lockdown() {
-    
+    public boolean getLockdown() {
+        return lockdown;
+    }
+    public String getAddress(){
+        return address;
     }
     public void draw() {
         
     }
     
-    public Position getPosition(){
-        return position;
+    public Position getExit(){
+        return exit;
     }
-    
+    public int getStorageCapacity(){
+        return storageCapacity;
+    }
 
 
 }

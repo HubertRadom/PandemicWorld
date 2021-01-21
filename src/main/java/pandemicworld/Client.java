@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JLabel;
 
 public class Client extends Person {
     private String firstName;
@@ -44,12 +45,14 @@ public class Client extends Person {
         nextShop = ThreadLocalRandom.current().nextInt(0, 9 + 1);
         return nextShop;
     }
-    public void buy(RetailShop shop, int numOfProducts) throws InterruptedException {
+    public void buy(RetailShop shop, int numOfProducts, JLabel icon) throws InterruptedException {
         //how many products buy in range (0,10)
         int n = ThreadLocalRandom.current().nextInt(1, numOfProducts + 1);
 
         while(true){
             if(shop.enter(this)){
+                icon.setVisible(false);
+                this.resetPosition();
 
                for(int i = 0; i < n; i++){
                    Product prod = shop.sellProduct(this);
@@ -60,6 +63,9 @@ public class Client extends Person {
                }
                
                shop.leave(this);
+               this.getPosition().setX(shop.getExit().getX());
+               this.getPosition().setY(shop.getExit().getY());
+               icon.setVisible(true);
                break;
             }
             sleep(50);

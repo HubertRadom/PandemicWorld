@@ -11,6 +11,7 @@ public class ClientThread extends Thread {
     private Client client;
     private ArrayList<ArrayList>adjacency;
     private ArrayList<RetailShop>retailShopList;
+    private ArrayList<Person>clientsList;
     private HashMap<String, Street>sidewalkMap;
     private HashMap<String, ImageIcon>images;
     private int from, to;
@@ -20,7 +21,7 @@ public class ClientThread extends Thread {
     private JLabel icon;
 
     public ClientThread(Client client, ArrayList<ArrayList>adjacency, HashMap<String, Street>sidewalkMap, int from, int to, ArrayList<RetailShop>retailShopList, 
-            JLabel icon, HashMap<String, ImageIcon>images) {
+            JLabel icon, HashMap<String, ImageIcon>images, ArrayList<Person>clientsList) {
         this.client = client;
         this.adjacency = adjacency;
         this.sidewalkMap = sidewalkMap;
@@ -29,9 +30,10 @@ public class ClientThread extends Thread {
         this.retailShopList = retailShopList;
         this.icon = icon;
         this.images = images;
-
-        Paint paint = new Paint();
-        paint.start();   
+        this.clientsList = clientsList;
+        
+       // Paint paint = new Paint();
+       // paint.start();   
     }
 
     public JLabel getIcon(){
@@ -45,8 +47,9 @@ public class ClientThread extends Thread {
 
     @Override
     public void run() {
+        
         while(true){
-
+            
             if(next == true){
 
                 currentSidewalk = sidewalkMap.get("x " + Integer.toString(to));
@@ -64,25 +67,34 @@ public class ClientThread extends Thread {
             } 
 
 
-            client.travel(currentSidewalk);
+            client.travel(currentSidewalk, clientsList, 16);
 
             //next shop
             if(next==false){
-
+                
+                //icon.setVisible(false);
+               // client.resetPosition();
+                
                 try {
-                    client.buy(retailShopList.get(to),2);
+                    client.buy(retailShopList.get(to),10, icon);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                //client.getPosition().setX(retailShopList.get(to).getExit().getX());
+                //client.getPosition().setY(retailShopList.get(to).getExit().getY());
+                //System.out.println(to);
+                //icon.setVisible(true);
+                
                 from = to;
                 to = client.nextShop();
-
+                
             }
 
         }
 
     }
-
+/*
     class Paint extends Thread {
         @Override
         public void run() {
@@ -107,4 +119,5 @@ public class ClientThread extends Thread {
             }
         }
     }
+    */
 }

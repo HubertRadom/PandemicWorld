@@ -17,6 +17,16 @@ public class RetailShop extends Shop {
         super(p, n, a, sc);
         clientCapacity = cc;
     }
+    
+    public List<Client> getPeople(){
+        return people;
+    }
+    public int getClientsNow(){
+        return clientsNow;
+    }
+    public int getClientCapacity(){
+        return clientCapacity;
+    }
 
     public synchronized boolean enter(Client cli) {
         if (clientsNow < clientCapacity){

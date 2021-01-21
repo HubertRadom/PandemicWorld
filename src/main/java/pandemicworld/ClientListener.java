@@ -8,12 +8,12 @@ import javax.swing.ImageIcon;
 
 class ClientListener extends MouseAdapter {
     
-    private Client client;
+    private ClientThread clientThread;
     private InformationWindow informationWindow;
     private HashMap<String, ImageIcon>images;
     
-    ClientListener(Client client, InformationWindow informationWindow,HashMap<String, ImageIcon>images){
-        this.client = client;
+    ClientListener(ClientThread clientThread, InformationWindow informationWindow, HashMap<String, ImageIcon>images){
+        this.clientThread = clientThread;
         this.informationWindow = informationWindow;
         this.images = images;
         
@@ -21,9 +21,9 @@ class ClientListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("click");
-        //System.out.println(informationWindow);
-        informationWindow.refreshClient(client, images);
+        informationWindow.refreshClient(clientThread, images);
+       // System.out.println(clientThread.getClient().getAtIntersection());
+        //System.out.println(clientThread.getClient().getCurrentIntersection());
     }
 
 }

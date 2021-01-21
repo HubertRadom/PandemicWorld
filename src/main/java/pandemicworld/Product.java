@@ -27,4 +27,13 @@ public class Product {
     public Date checkDate() {
         return beforeDate;
     }
+    public int getID(){
+        return ID;
+    }
+    public String getName(){
+        return name;
+    }
+    public String getBrand(){
+        return brand;
+    }
 }
