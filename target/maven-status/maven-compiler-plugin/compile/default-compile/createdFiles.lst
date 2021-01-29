@@ -1,11 +1,8 @@
 pandemicworld\Path.class
-pandemicworld\RetailShopListener.class
-pandemicworld\SupplierListener.class
 pandemicworld\Painter.class
 pandemicworld\ControlPanel.class
 pandemicworld\Product.class
 pandemicworld\App.class
-pandemicworld\ClientListener.class
 pandemicworld\InformationWindow$1.class
 pandemicworld\Shop.class
 pandemicworld\Intersection.class
@@ -18,7 +15,6 @@ pandemicworld\Street.class
 pandemicworld\InformationWindow.class
 pandemicworld\SupplierThread.class
 pandemicworld\ClientThread.class
-pandemicworld\WholesaleStoreListener.class
 pandemicworld\WholesaleStore.class
 pandemicworld\Client.class
 pandemicworld\InformationWindow$2.class

@@ -19,9 +19,11 @@ public class ClientThread extends Thread {
     //private Street nextStreet;
     private boolean next = false;
     private JLabel icon;
+    private ControlPanel controlPanel;
+    private int visitsToRecover;
 
     public ClientThread(Client client, ArrayList<ArrayList>adjacency, HashMap<String, Street>sidewalkMap, int from, int to, ArrayList<RetailShop>retailShopList, 
-            JLabel icon, HashMap<String, ImageIcon>images, ArrayList<Person>clientsList) {
+            JLabel icon, HashMap<String, ImageIcon>images, ArrayList<Person>clientsList, ControlPanel controlPanel) {
         this.client = client;
         this.adjacency = adjacency;
         this.sidewalkMap = sidewalkMap;
@@ -31,6 +33,9 @@ public class ClientThread extends Thread {
         this.icon = icon;
         this.images = images;
         this.clientsList = clientsList;
+        this.controlPanel = controlPanel;
+        this.visitsToRecover = controlPanel.getVisitsBeforeRecover();
+        
         
        // Paint paint = new Paint();
        // paint.start();   
@@ -49,6 +54,15 @@ public class ClientThread extends Thread {
     public void run() {
         
         while(true){
+            if(visitsToRecover < 0 && client.getSick()){
+                visitsToRecover = controlPanel.getVisitsBeforeRecover();
+                client.setSick(true);
+            }
+            
+            if(visitsToRecover == 0 && client.getSick()){
+                client.setSick(false);
+            } 
+            
             
             if(next == true){
 
@@ -71,12 +85,22 @@ public class ClientThread extends Thread {
 
             //next shop
             if(next==false){
-                
+                visitsToRecover--;
                 //icon.setVisible(false);
                // client.resetPosition();
                 
                 try {
-                    client.buy(retailShopList.get(to),10, icon);
+                    
+                    if(client.getSick()){
+                        if(client.getMask()){
+                            client.infect(retailShopList.get(to), controlPanel.getTransRateMask(), controlPanel.getTransIfVacc());
+                        } else{
+                            client.infect(retailShopList.get(to), controlPanel.getTransRate(), controlPanel.getTransIfVacc());
+                        }
+                    }
+                    
+                client.buy(retailShopList.get(to),icon);
+                client.consume();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
                 }

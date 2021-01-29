@@ -45,9 +45,9 @@ public class Client extends Person {
         nextShop = ThreadLocalRandom.current().nextInt(0, 9 + 1);
         return nextShop;
     }
-    public void buy(RetailShop shop, int numOfProducts, JLabel icon) throws InterruptedException {
+    public void buy(RetailShop shop, JLabel icon) throws InterruptedException {
         //how many products buy in range (0,10)
-        int n = ThreadLocalRandom.current().nextInt(1, numOfProducts + 1);
+        int n = ThreadLocalRandom.current().nextInt(1, cartCapacity + 1);
 
         while(true){
             if(shop.enter(this)){
@@ -68,13 +68,18 @@ public class Client extends Person {
                icon.setVisible(true);
                break;
             }
-            sleep(50);
+            sleep(200);
         }
         
 
     }
     public void consume() {
-        
+        if (cart.size() > cartCapacity){
+            int n = ThreadLocalRandom.current().nextInt(cart.size() - cartCapacity, cart.size());
+            for(int i = 0; i < n; i++){
+                cart.remove(0);
+            }
+        }
     }
     
 

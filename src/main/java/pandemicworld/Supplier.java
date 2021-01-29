@@ -22,12 +22,6 @@ public class Supplier extends Person{
         this.route = route;
     }
     
-    public void exchangeProducts(Shop shop) {
-        
-    }
-    public void fillTank() {
-        
-    }
     public void getPath(Position from, Position to, Street road) {
         
     }
@@ -61,17 +55,28 @@ public class Supplier extends Person{
            sleep(200);
         }
     }
-    
+
+
     public void giveProducts(RetailShop shop) throws InterruptedException {
-        for(int i = 0; i < (trunkCapacity/(route.size()-1)); i++) {
-            if (trunk.size() > 0 && shop.getCurrentSupply().size() < shop.getStorageCapacity()){
-                Product prod = trunk.get(0);
-                trunk.remove(prod);
-                shop.addProduct(prod);
-                sleep(200);
+        while(true){
+            if(shop.enter(this)){
+                for(int i = 0; i < (trunkCapacity/(route.size()-1)); i++) {
+                    if (trunk.size() > 0 && shop.getCurrentSupply().size() < shop.getStorageCapacity()){
+                        Product prod = trunk.get(0);
+                        trunk.remove(prod);
+                        shop.addProduct(prod);
+                        sleep(200);
+                    }
+
+                }
+                shop.leave(this);
+                break;
             }
-            
+            sleep(200);
         }
         
     }
+    
+    
+    
 }

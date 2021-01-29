@@ -7,7 +7,7 @@ public class Shop {
     private String name;
     private String address;
     private int storageCapacity;
-    private boolean lockdown;
+    
     private ArrayList<Product>currentSupply = new ArrayList<Product>();
     private Position exit;
     
@@ -31,9 +31,7 @@ public class Shop {
     public void addProduct(Product product) {
         currentSupply.add(product);
     }
-    public boolean getLockdown() {
-        return lockdown;
-    }
+
     public String getAddress(){
         return address;
     }

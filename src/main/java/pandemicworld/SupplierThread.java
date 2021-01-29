@@ -21,10 +21,13 @@ public class SupplierThread extends Thread {
     private boolean next = false;
     private JLabel icon;
     private int index = 1;
+    private ControlPanel controlPanel;
+    private int visitsToRecover;
     
 
     public SupplierThread(Supplier supplier, ArrayList<ArrayList>adjacency, HashMap<String, Street>roadMap, ArrayList<RetailShop>retailShopList, 
-             ArrayList<WholesaleStore>wholesaleStoreList, JLabel icon, HashMap<String, ImageIcon>images, ArrayList<Person>suppliersList) {
+             ArrayList<WholesaleStore>wholesaleStoreList, JLabel icon, HashMap<String, ImageIcon>images, ArrayList<Person>suppliersList,
+             ControlPanel controlPanel) {
         this.supplier = supplier;
         this.adjacency = adjacency;
         this.roadMap = roadMap;
@@ -35,10 +38,9 @@ public class SupplierThread extends Thread {
         this.images = images;
         this.wholesaleStoreList = wholesaleStoreList;
         this.suppliersList = suppliersList;
-        
+        this.controlPanel = controlPanel;
+        this.visitsToRecover = controlPanel.getVisitsBeforeRecover();
 
-        //Paint paint = new Paint();
-        //paint.start();   
     }
 
     public JLabel getIcon(){
@@ -53,7 +55,15 @@ public class SupplierThread extends Thread {
     @Override
     public void run() {
         while(true){
-
+            if(visitsToRecover < 0 && supplier.getSick()){
+                visitsToRecover = controlPanel.getVisitsBeforeRecover();
+                supplier.setSick(true);
+            }
+            
+            if(visitsToRecover == 0 && supplier.getSick()){
+                supplier.setSick(false);
+            } 
+            
             if(next == true){
 
                 currentRoad = roadMap.get("x " + Integer.toString(to));
@@ -70,22 +80,28 @@ public class SupplierThread extends Thread {
 
             } 
 
-            supplier.travel(currentRoad, suppliersList, 32);
+            supplier.travel(currentRoad, suppliersList, 32, supplier.getCar());
 
             //next shop
             if(next==false){
+                supplier.getCar().fillTank();
+                visitsToRecover--;
                 if(to >= 10){
                     try {
                         supplier.getProducts(wholesaleStoreList.get(to-10));
-                        //System.out.println(supplier.getTrunk());
                     } catch (InterruptedException ex) {
                         Logger.getLogger(SupplierThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     try {
-                        //retailShopList.get(to).getPeople().add(this);
+                        if(supplier.getSick()){
+                            if(supplier.getMask()){
+                                supplier.infect(retailShopList.get(to), controlPanel.getTransRateMask(), controlPanel.getTransIfVacc());
+                            } else{
+                                supplier.infect(retailShopList.get(to), controlPanel.getTransRate(), controlPanel.getTransIfVacc());
+                            }
+                        }
                         supplier.giveProducts(retailShopList.get(to));
-                        //retailShopList.get(to).getPeople().remove(this);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(SupplierThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -106,54 +122,4 @@ public class SupplierThread extends Thread {
         }
 
     }
-/*
-    class Paint extends Thread {
-        @Override
-        public void run() {
-            while(true){
-                //icon.setBounds(supplier.getPosition().getX()-(32/2), supplier.getPosition().getY()-(32/2),32,32);
-                
-            if (supplier.getDirection() == "up"){
-                icon.setBounds(supplier.getPosition().getX()-(32/2), supplier.getPosition().getY()-(64/2),32,64);
-                if (supplier.getCar().getBrand() == "ferrari"){
-                    icon.setIcon(images.get("ferrariUpImage"));
-                } else if (supplier.getCar().getBrand() == "golf"){
-                    icon.setIcon(images.get("golfUpImage"));
-                } else {
-                    icon.setIcon(images.get("carUpImage"));
-                }   
-            } else if (supplier.getDirection() == "down"){
-                icon.setBounds(supplier.getPosition().getX()-(32/2), supplier.getPosition().getY()-(64/2),32,64);
-                if (supplier.getCar().getBrand() == "ferrari"){
-                    icon.setIcon(images.get("ferrariDownImage"));
-                } else if (supplier.getCar().getBrand() == "golf"){
-                    icon.setIcon(images.get("golfDownImage"));
-                } else {
-                    icon.setIcon(images.get("carDownImage"));
-                }    
-            } else if (supplier.getDirection() == "right"){
-                icon.setBounds(supplier.getPosition().getX()-(64/2), supplier.getPosition().getY()-(32/2),64,32);
-                if (supplier.getCar().getBrand() == "ferrari"){
-                    icon.setIcon(images.get("ferrariRightImage"));
-                } else if (supplier.getCar().getBrand() == "golf"){
-                    icon.setIcon(images.get("golfRightImage"));
-                } else {
-                    icon.setIcon(images.get("carRightImage"));
-                }      
-            } else if (supplier.getDirection() == "left"){
-                icon.setBounds(supplier.getPosition().getX()-(64/2), supplier.getPosition().getY()-(32/2),64,32);
-                if (supplier.getCar().getBrand() == "ferrari"){
-                    icon.setIcon(images.get("ferrariLeftImage"));
-                } else if (supplier.getCar().getBrand() == "golf"){
-                    icon.setIcon(images.get("golfLeftImage"));
-                } else {
-                    icon.setIcon(images.get("carLeftImage"));
-                }     
-            }
-                
-                sleep(20);
-            }
-        }
-    }
-    */
 }

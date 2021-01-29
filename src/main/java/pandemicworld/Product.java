@@ -24,6 +24,13 @@ public class Product {
         }
     }
     
+    Product(int i, String n, String b, Date date) {
+        ID = i;
+        name = n;
+        brand = b;
+        beforeDate = date;
+    }
+    
     public Date checkDate() {
         return beforeDate;
     }
@@ -35,5 +42,8 @@ public class Product {
     }
     public String getBrand(){
         return brand;
+    }
+    public Date getBeforeDate(){
+        return beforeDate;
     }
 }

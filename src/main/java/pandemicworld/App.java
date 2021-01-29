@@ -9,6 +9,7 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 //import java.util.HashMap;
 
@@ -21,11 +22,30 @@ public class App extends JFrame{
                 
         JPanel container = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
       //  container.set
+      
+        ControlPanel controlPanel = new ControlPanel(0.6,0.4,0.1,0.5,2,5);
+        
+        //supplier1,adjacency,roadMap, retailShopList,wholesaleStoreList, supplierlabel1, images, supplierList, controlPanel
+        ArrayList<Person> clientList = new ArrayList<>();
+        ArrayList<Person> supplierList = new ArrayList<>();
+        ArrayList<ClientThread> clientThreadList = new ArrayList<>();
+        ArrayList<SupplierThread> supplierThreadList = new ArrayList<>();
+        ArrayList<RetailShop> retailShopList = new ArrayList<>();
+        ArrayList<WholesaleStore> wholesaleStoreList = new ArrayList<>(); 
+        ArrayList<ArrayList> adjacency = new ArrayList<>();
+        HashMap<String, Street> sidewalkMap = new HashMap<String, Street>();;
+        HashMap<String, Street> roadMap = new HashMap<String, Street>();;
+        HashMap<String, ImageIcon> images = new HashMap<String, ImageIcon>();
 
-        InformationWindow informationWindow = new InformationWindow();
+        JLabel background = new JLabel();
+        InformationWindow informationWindow = new InformationWindow(controlPanel, clientList, supplierList,
+        clientThreadList, supplierThreadList, retailShopList, wholesaleStoreList,
+        adjacency, sidewalkMap, roadMap, images, background);
         informationWindow.setPreferredSize(new Dimension(200,800));
         
-        Map map = new Map(informationWindow);
+        Map map = new Map(informationWindow, controlPanel, clientList, supplierList,
+        clientThreadList, supplierThreadList, retailShopList, wholesaleStoreList,
+        adjacency, sidewalkMap, roadMap, images, background);
         map.setPreferredSize(new Dimension(1600,800));
         map.setLayout(null);
         //JLabel background = new JLabel(sickImage);

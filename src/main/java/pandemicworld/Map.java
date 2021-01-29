@@ -62,25 +62,41 @@ public class Map extends JPanel {
     private HashMap<String, Street> sidewalkMap;
     private HashMap<String, Street> roadMap;
     private HashMap<String, ImageIcon> images;
+    private JLabel background;
 
 
 
-    public Map(InformationWindow informationWindow) throws IOException {
-        clientList = new ArrayList<>();
-        supplierList = new ArrayList<>();
-        retailShopList = new ArrayList<>();
-        wholesaleStoreList = new ArrayList<>();
-        adjacency = new ArrayList<>();
-        //sidewalkList = new ArrayList<>();
-        sidewalkMap = new HashMap<String, Street>();
-        roadMap = new HashMap<String, Street>();
-        clientThreadList = new ArrayList<>();
-        supplierThreadList = new ArrayList<>();
+    public Map(InformationWindow informationWindow, ControlPanel controlPanel,  ArrayList<Person> clientList,
+             ArrayList<Person> supplierList,  ArrayList<ClientThread>clientThreadList,
+             ArrayList<SupplierThread> supplierThreadList, ArrayList<RetailShop> retailShopList,
+             ArrayList<WholesaleStore> wholesaleStoreList, ArrayList<ArrayList> adjacency,
+             HashMap<String, Street> sidewalkMap, HashMap<String, Street> roadMap, HashMap<String, 
+                     ImageIcon> images, JLabel background) throws IOException {
+        //clientList = new ArrayList<>();
+        this.clientList = clientList;
+        //supplierList = new ArrayList<>();
+        this.supplierList = supplierList;
+        //retailShopList = new ArrayList<>();
+        this.retailShopList = retailShopList;
+        //wholesaleStoreList = new ArrayList<>();
+        this.wholesaleStoreList = wholesaleStoreList;
+        //adjacency = new ArrayList<>();
+        this.adjacency = adjacency;
+        
+        //sidewalkMap = new HashMap<String, Street>();
+        this.sidewalkMap = sidewalkMap;
+        //roadMap = new HashMap<String, Street>();
+        this.roadMap = roadMap;
+        //clientThreadList = new ArrayList<>();
+        this.clientThreadList = clientThreadList;
+        //supplierThreadList = new ArrayList<>();
+        this.supplierThreadList = supplierThreadList;
         area1 = new ArrayList<>();
         area2 = new ArrayList<>();
         area3 = new ArrayList<>();
         area4 = new ArrayList<>();
-        images = new HashMap<String, ImageIcon>();
+        //images = new HashMap<String, ImageIcon>();
+        this.images = images;
 
         images.put("healthyImage",healthyImage);
         images.put("healthyMaskImage",healthyMaskImage);
@@ -103,13 +119,14 @@ public class Map extends JPanel {
         
         
         setFocusable(true);
-        JLabel background = new JLabel(backgroundImage);
+        this.background = background;
+        background.setIcon(backgroundImage);
         background.setBounds(0, 0, 1600, 800);
         this.add(background);
         
         RetailShop shop0 = new RetailShop(new Position(132,140),"Dino","area 1, nr 0",100,20);
-        RetailShopThread sh0 = new RetailShopThread(shop0);
-        RetailShopListener shop0listener = new RetailShopListener(sh0, informationWindow, images);
+        RetailShopThread sh0 = new RetailShopThread(shop0, supplierList, clientList,controlPanel);
+        ObjectListener shop0listener = new ObjectListener(sh0, informationWindow, images);
         JLabel shop0label = new JLabel();
         shop0label.setBounds(0, 0, 155, 135);
         shop0label.addMouseListener(shop0listener);
@@ -117,38 +134,116 @@ public class Map extends JPanel {
         sh0.start();
         
         RetailShop shop1 = new RetailShop(new Position(18,657),"Lidl","area 1, nr 1",100,20);  
-        RetailShopThread sh1 = new RetailShopThread(shop1);
-        RetailShopListener shop1listener = new RetailShopListener(sh1, informationWindow, images);
+        RetailShopThread sh1 = new RetailShopThread(shop1, supplierList, clientList,controlPanel);
+        ObjectListener shop1listener = new ObjectListener(sh1, informationWindow, images);
         JLabel shop1label = new JLabel();
         shop1label.setBounds(0, 666, 145, 130);
         shop1label.addMouseListener(shop1listener);
         background.add(shop1label);
         sh1.start();
-            
-            
+        
         RetailShop shop2 = new RetailShop(new Position(415,325),"Tesco","area 1, nr 2",100,20);
+        RetailShopThread sh2 = new RetailShopThread(shop2, supplierList, clientList,controlPanel);
+        ObjectListener shop2listener = new ObjectListener(sh2, informationWindow, images);
+        JLabel shop2label = new JLabel();
+        shop2label.setBounds(240, 200, 180, 120);
+        shop2label.addMouseListener(shop2listener);
+        background.add(shop2label);
+        sh2.start();
+        
         RetailShop shop3 = new RetailShop(new Position(538,573),"Polo","area 2, nr 3",100,20);
+        RetailShopThread sh3 = new RetailShopThread(shop3, supplierList, clientList,controlPanel);
+        ObjectListener shop3listener = new ObjectListener(sh3, informationWindow, images);
+        JLabel shop3label = new JLabel();
+        shop3label.setBounds(417, 559, 115, 113);
+        shop3label.addMouseListener(shop3listener);
+        background.add(shop3label);
+        sh3.start();
+        
         RetailShop shop4 = new RetailShop(new Position(680,700),"Biedronka","area 2, nr 4",100,20);
+        RetailShopThread sh4 = new RetailShopThread(shop4, supplierList, clientList,controlPanel);
+        ObjectListener shop4listener = new ObjectListener(sh4, informationWindow, images);
+        JLabel shop4label = new JLabel();
+        shop4label.setBounds(665, 700, 105, 100);
+        shop4label.addMouseListener(shop4listener);
+        background.add(shop4label);
+        sh4.start();
+        
         RetailShop shop5 = new RetailShop(new Position(645,165),"Carrefour","area 3, nr 5",100,20);
+        RetailShopThread sh5 = new RetailShopThread(shop5, supplierList, clientList,controlPanel);
+        ObjectListener shop5listener = new ObjectListener(sh5, informationWindow, images);
+        JLabel shop5label = new JLabel();
+        shop5label.setBounds(500, 110, 105, 190);
+        shop5label.addMouseListener(shop5listener);
+        background.add(shop5label);
+        sh5.start();
+            
         RetailShop shop6 = new RetailShop(new Position(1020,270),"Monopolex","area 3, nr 6",100,20);
+        RetailShopThread sh6 = new RetailShopThread(shop6, supplierList, clientList,controlPanel);
+        ObjectListener shop6listener = new ObjectListener(sh6, informationWindow, images);
+        JLabel shop6label = new JLabel();
+        shop6label.setBounds(1024, 156, 112, 148);
+        shop6label.addMouseListener(shop6listener);
+        background.add(shop6label);
+        sh6.start();
+        
         RetailShop shop7 = new RetailShop(new Position(1407,165),"Żabka","area 4, nr 7",100,20);
-        RetailShop shop8 = new RetailShop(new Position(1463,280),"Społem","area 4, nr 7",100,20);
-        RetailShop shop9 = new RetailShop(new Position(1480,669),"Delikatesy","area 4, nr 7",100,20);
+        RetailShopThread sh7 = new RetailShopThread(shop7, supplierList, clientList,controlPanel);
+        ObjectListener shop7listener = new ObjectListener(sh7, informationWindow, images);
+        JLabel shop7label = new JLabel();
+        shop7label.setBounds(1266, 0, 170, 155);
+        shop7label.addMouseListener(shop7listener);
+        background.add(shop7label);
+        sh7.start();
+        
+        RetailShop shop8 = new RetailShop(new Position(1463,280),"Społem","area 4, nr 8",100,20);
+        RetailShopThread sh8 = new RetailShopThread(shop8, supplierList, clientList,controlPanel);
+        ObjectListener shop8listener = new ObjectListener(sh8, informationWindow, images);
+        JLabel shop8label = new JLabel();
+        shop8label.setBounds(1462, 163, 138, 145);
+        shop8label.addMouseListener(shop8listener);
+        background.add(shop8label);
+        sh8.start();
+        
+        RetailShop shop9 = new RetailShop(new Position(1480,669),"Delikatesy","area 4, nr 9",100,20);
+        RetailShopThread sh9 = new RetailShopThread(shop9, supplierList, clientList,controlPanel);
+        ObjectListener shop9listener = new ObjectListener(sh9, informationWindow, images);
+        JLabel shop9label = new JLabel();
+        shop9label.setBounds(1443, 681, 157, 90);
+        shop9label.addMouseListener(shop9listener);
+        background.add(shop9label);
+        sh9.start();
         
         
         WholesaleStore shop10 = new WholesaleStore(new Position(100,500),"Januszexpol","area 1, nr 10",10); 
         WholesaleStoreThread sh10 = new WholesaleStoreThread(shop10);
-        WholesaleStoreListener shop10listener = new WholesaleStoreListener(sh10, informationWindow, images);
+        ObjectListener shop10listener = new ObjectListener(sh10, informationWindow, images);
         JLabel shop10label = new JLabel();
         shop10label.setBounds(200, 685, 170, 100);
         shop10label.addMouseListener(shop10listener);
         background.add(shop10label);
         sh10.start();
         
-        
-       // WholesaleStore shop10 = new WholesaleStore(new Position(100,500),"Januszexpol","area 1, nr 10",10);
         WholesaleStore shop11 = new WholesaleStore(new Position(100,500),"Hurtmex","area 2, nr 11",400);
+        WholesaleStoreThread sh11 = new WholesaleStoreThread(shop11);
+        ObjectListener shop11listener = new ObjectListener(sh11, informationWindow, images);
+        JLabel shop11label = new JLabel();
+        shop11label.setBounds(955, 560, 180, 160);
+        shop11label.addMouseListener(shop11listener);
+        background.add(shop11label);
+        sh11.start();
+        
         WholesaleStore shop12 = new WholesaleStore(new Position(100,500),"Rzeźnix","area 3, nr 12",400);
+        WholesaleStoreThread sh12 = new WholesaleStoreThread(shop12);
+        ObjectListener shop12listener = new ObjectListener(sh12, informationWindow, images);
+        JLabel shop12label = new JLabel();
+        shop12label.setBounds(1100, 0, 160, 135);
+        shop12label.addMouseListener(shop12listener);
+        background.add(shop12label);
+        sh12.start();
+        
+
+        
         retailShopList.add(shop0);
         retailShopList.add(shop1);
         retailShopList.add(shop2);
@@ -177,20 +272,20 @@ public class Map extends JPanel {
         shop10.addProduct(prod2);
         shop10.addProduct(prod3);
         
-        Intersection intersection1 = new Intersection(new Position(648,520), new Position(814,352));       
+        Intersection intersection1 = new Intersection(new Position(648,520), new Position(814,352), supplierThreadList, clientThreadList);       
         //Intersection intersection1 = new Intersection(new Position(664,504), new Position(798,368));  
         //AREA1
-        Intersection inter2 = new Intersection(new Position(-14,520), new Position(164,352)); 
+        Intersection inter2 = new Intersection(new Position(-14,520), new Position(164,352), supplierThreadList, clientThreadList); 
         //Intersection inter3 = new Intersection(new Position(40,593), new Position(150,530)); 
-        Intersection inter3 = new Intersection(new Position(0,0), new Position(0,0)); 
+        Intersection inter3 = new Intersection(new Position(0,0), new Position(0,0), supplierThreadList, clientThreadList); 
         //AREA2
-        Intersection inter4 = new Intersection(new Position(648,690), new Position(814,541));
+        Intersection inter4 = new Intersection(new Position(648,690), new Position(814,541), supplierThreadList, clientThreadList);
         //AREA3
-        Intersection inter5 = new Intersection(new Position(648,302), new Position(814,133));
-        Intersection inter6 = new Intersection(new Position(875,246), new Position(940,146));
+        Intersection inter5 = new Intersection(new Position(648,302), new Position(814,133), supplierThreadList, clientThreadList);
+        Intersection inter6 = new Intersection(new Position(875,246), new Position(940,146), supplierThreadList, clientThreadList);
         //AREA4
-        Intersection inter7 = new Intersection(new Position(1265,520), new Position(1439,352));
-        Intersection inter8 = new Intersection(new Position(1265,312), new Position(1423,175));
+        Intersection inter7 = new Intersection(new Position(1265,520), new Position(1439,352), supplierThreadList, clientThreadList);
+        Intersection inter8 = new Intersection(new Position(1265,312), new Position(1423,175), supplierThreadList, clientThreadList);
         
         area1.add(intersection1);
         area1.add(inter2);
@@ -494,38 +589,40 @@ public class Map extends JPanel {
        */ 
 
         //System.out.println(informationWindow);
+        boolean s=true;
         for(int i = 0; i < 20; i++){
             JLabel clientlabel1 = new JLabel(sickImage);
             clientlabel1.setBounds(18-16, 140-16, 32, 32);
-            Client client1 = new Client(false,true,false,new Position(18,140),"a","a","a",1);
+            Client client1 = new Client(s,true,false,new Position(18,140),"a","a","a",10);
             clientList.add(client1);
-            ClientThread c1 = new ClientThread(client1,adjacency,sidewalkMap,0,4, retailShopList, clientlabel1, images, clientList);
+            ClientThread c1 = new ClientThread(client1,adjacency,sidewalkMap,0,4, retailShopList, clientlabel1, images, clientList, controlPanel);
 
-            ClientListener clientListener1 = new ClientListener(c1, informationWindow, images);
+            ObjectListener clientListener1 = new ObjectListener(c1, informationWindow, images);
             clientlabel1.addMouseListener(clientListener1);
             background.add(clientlabel1);
             //ClientThread c1 = new ClientThread(client1,adjacency,sidewalkMap,0,1, retailShopList, clientlabel1, images);
             c1.start();
             clientThreadList.add(c1);
+            s=!s;
             
         }
 
-        /*
+        
         JLabel supplierlabel1 = new JLabel(sickImage);
         supplierlabel1.setBounds(18-16, 140-16, 32, 32);
         Supplier supplier1 = new Supplier(false,true,false,new Position(18,140),1,"microsoft",new Car("ferrari",1,1,1),10,
             new ArrayList(Arrays.asList(0,1,10)));
         supplierList.add(supplier1);
         
-        SupplierThread s1 = new SupplierThread(supplier1,adjacency,roadMap, retailShopList,wholesaleStoreList, supplierlabel1, images, supplierList);
+        SupplierThread s1 = new SupplierThread(supplier1,adjacency,roadMap, retailShopList,wholesaleStoreList, supplierlabel1, images, supplierList, controlPanel);
         
-        SupplierListener supplierListener = new SupplierListener(s1, informationWindow, images);
+        ObjectListener supplierListener = new ObjectListener(s1, informationWindow, images);
         supplierlabel1.addMouseListener(supplierListener);
         background.add(supplierlabel1);
         //SupplierThread s1 = new SupplierThread(supplier1,adjacency,roadMap, retailShopList, supplierlabel1, images);
         s1.start();
         supplierThreadList.add(s1);
-        */
+        
         
        Painter painter = new Painter(images, clientThreadList, supplierThreadList);
        painter.start();

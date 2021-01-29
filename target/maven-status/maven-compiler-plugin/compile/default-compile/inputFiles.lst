@@ -10,11 +10,8 @@ C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Pe
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Street.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\ClientThread.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Map.java
-C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\SupplierListener.java
-C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\WholesaleStoreListener.java
-C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\RetailShopListener.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\RetailShopThread.java
-C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\ClientListener.java
+C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\ObjectListener.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\App.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Shop.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Car.java
@@ -22,3 +19,4 @@ C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Wh
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Client.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Intersection.java
 C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\Painter.java
+C:\Users\Hubert\Desktop\studia\java\PandemicWorld\src\main\java\pandemicworld\WholesaleStoreThread.java
