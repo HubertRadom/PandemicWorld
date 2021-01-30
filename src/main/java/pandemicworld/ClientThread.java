@@ -7,23 +7,27 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+/**
+ * Thread that operates client.
+ *
+ */
 public class ClientThread extends Thread {
+
     private Client client;
-    private ArrayList<ArrayList>adjacency;
-    private ArrayList<RetailShop>retailShopList;
-    private ArrayList<Person>clientsList;
-    private HashMap<String, Street>sidewalkMap;
-    private HashMap<String, ImageIcon>images;
+    private ArrayList<ArrayList> adjacency;
+    private ArrayList<RetailShop> retailShopList;
+    private ArrayList<Person> clientsList;
+    private HashMap<String, Street> sidewalkMap;
+    private HashMap<String, ImageIcon> images;
     private int from, to;
     private Street currentSidewalk;
-    //private Street nextStreet;
     private boolean next = false;
     private JLabel icon;
     private ControlPanel controlPanel;
     private int visitsToRecover;
 
-    public ClientThread(Client client, ArrayList<ArrayList>adjacency, HashMap<String, Street>sidewalkMap, int from, int to, ArrayList<RetailShop>retailShopList, 
-            JLabel icon, HashMap<String, ImageIcon>images, ArrayList<Person>clientsList, ControlPanel controlPanel) {
+    public ClientThread(Client client, ArrayList<ArrayList> adjacency, HashMap<String, Street> sidewalkMap, int from, int to, ArrayList<RetailShop> retailShopList,
+            JLabel icon, HashMap<String, ImageIcon> images, ArrayList<Person> clientsList, ControlPanel controlPanel) {
         this.client = client;
         this.adjacency = adjacency;
         this.sidewalkMap = sidewalkMap;
@@ -35,113 +39,75 @@ public class ClientThread extends Thread {
         this.clientsList = clientsList;
         this.controlPanel = controlPanel;
         this.visitsToRecover = controlPanel.getVisitsBeforeRecover();
-        
-        
-       // Paint paint = new Paint();
-       // paint.start();   
     }
 
-    public JLabel getIcon(){
+    public JLabel getIcon() {
         return icon;
     }
-    
-    public Client getClient(){
+
+    public Client getClient() {
         return client;
     }
-    
 
+    /**
+     * If the shop to which the client is going is in another area, first he
+     * goes to the main intersection "x".
+     */
     @Override
     public void run() {
-        
-        while(true){
-            if(visitsToRecover < 0 && client.getSick()){
+
+        while (true) {
+            if (visitsToRecover < 0 && client.getSick()) {
                 visitsToRecover = controlPanel.getVisitsBeforeRecover();
                 client.setSick(true);
             }
-            
-            if(visitsToRecover == 0 && client.getSick()){
+
+            if (visitsToRecover == 0 && client.getSick()) {
                 client.setSick(false);
-            } 
-            
-            
-            if(next == true){
+            }
+
+            if (next == true) {
 
                 currentSidewalk = sidewalkMap.get("x " + Integer.toString(to));
                 next = false;
 
-            } else if(adjacency.get(from).get(to).equals(1)){       
+            } else if (adjacency.get(from).get(to).equals(1)) {
 
-                currentSidewalk = sidewalkMap.get(Integer.toString(from)+ " " + Integer.toString(to));
+                currentSidewalk = sidewalkMap.get(Integer.toString(from) + " " + Integer.toString(to));
 
             } else {
 
                 next = true;
-                currentSidewalk = sidewalkMap.get(Integer.toString(from)+ " x");
+                currentSidewalk = sidewalkMap.get(Integer.toString(from) + " x");
 
-            } 
-
+            }
 
             client.travel(currentSidewalk, clientsList, 16);
 
             //next shop
-            if(next==false){
+            if (next == false) {
                 visitsToRecover--;
-                //icon.setVisible(false);
-               // client.resetPosition();
-                
                 try {
-                    
-                    if(client.getSick()){
-                        if(client.getMask()){
+
+                    if (client.getSick()) {
+                        if (client.getMask()) {
                             client.infect(retailShopList.get(to), controlPanel.getTransRateMask(), controlPanel.getTransIfVacc());
-                        } else{
+                        } else {
                             client.infect(retailShopList.get(to), controlPanel.getTransRate(), controlPanel.getTransIfVacc());
                         }
                     }
-                    
-                client.buy(retailShopList.get(to),icon);
-                client.consume();
+
+                    client.buy(retailShopList.get(to), icon);
+                    client.consume();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                //client.getPosition().setX(retailShopList.get(to).getExit().getX());
-                //client.getPosition().setY(retailShopList.get(to).getExit().getY());
-                //System.out.println(to);
-                //icon.setVisible(true);
-                
                 from = to;
                 to = client.nextShop();
-                
+
             }
 
         }
 
     }
-/*
-    class Paint extends Thread {
-        @Override
-        public void run() {
-            while(true){
-                icon.setBounds(client.getPosition().getX()-(32/2), client.getPosition().getY()-(32/2),32,32);
-                
-                if(client.getMask() == true){
-                    if(client.getSick() == true){
-                        icon.setIcon(images.get("sickMaskImage"));
-                    } else{
-                        icon.setIcon(images.get("healthyMaskImage"));
-                    }
-                } else {
-                    if(client.getSick() == true){
-                        icon.setIcon(images.get("sickImage"));
-                    } else {
-                        icon.setIcon(images.get("healthyImage"));
-                    }
-                }
-                
-                sleep(20);
-            }
-        }
-    }
-    */
 }

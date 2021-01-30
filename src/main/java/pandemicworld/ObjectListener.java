@@ -1,4 +1,3 @@
-
 package pandemicworld;
 
 import java.awt.event.MouseAdapter;
@@ -6,56 +5,58 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 
+/**
+ * Allows to listen click event on JLabel, and transmits data to information
+ * window.
+ *
+ */
 class ObjectListener extends MouseAdapter {
-    
+
     private ClientThread clientThread;
     private SupplierThread supplierThread;
     private RetailShopThread retailShopThread;
     private WholesaleStoreThread wholesaleStoreThread;
     private InformationWindow informationWindow;
-    private HashMap<String, ImageIcon>images;
     private String currentObject;
-    
-    ObjectListener(ClientThread clientThread, InformationWindow informationWindow, HashMap<String, ImageIcon>images){
+
+    ObjectListener(ClientThread clientThread, InformationWindow informationWindow) {
         this.clientThread = clientThread;
         this.informationWindow = informationWindow;
-        this.images = images;  
         this.currentObject = "client";
     }
-    ObjectListener(SupplierThread supplierThread, InformationWindow informationWindow, HashMap<String, ImageIcon>images){
+
+    ObjectListener(SupplierThread supplierThread, InformationWindow informationWindow) {
         this.supplierThread = supplierThread;
         this.informationWindow = informationWindow;
-        this.images = images;  
         this.currentObject = "supplier";
     }
-    ObjectListener(RetailShopThread retailShopThread, InformationWindow informationWindow, HashMap<String, ImageIcon>images){
+
+    ObjectListener(RetailShopThread retailShopThread, InformationWindow informationWindow) {
         this.retailShopThread = retailShopThread;
         this.informationWindow = informationWindow;
-        this.images = images;  
         this.currentObject = "retail";
     }
-    ObjectListener(WholesaleStoreThread wholesaleStoreThread, InformationWindow informationWindow, HashMap<String, ImageIcon>images){
+
+    ObjectListener(WholesaleStoreThread wholesaleStoreThread, InformationWindow informationWindow) {
         this.wholesaleStoreThread = wholesaleStoreThread;
         this.informationWindow = informationWindow;
-        this.images = images;  
         this.currentObject = "wholesale";
     }
-    
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        switch(currentObject){
+        switch (currentObject) {
             case "client":
-                informationWindow.refreshClient(clientThread, images);
+                informationWindow.refreshClient(clientThread);
                 break;
             case "supplier":
-                informationWindow.refreshSupplier(supplierThread, images);
+                informationWindow.refreshSupplier(supplierThread);
                 break;
             case "retail":
-                informationWindow.refreshRetailShop(retailShopThread, images);
+                informationWindow.refreshRetailShop(retailShopThread);
                 break;
             case "wholesale":
-                informationWindow.refreshWholesaleStore(wholesaleStoreThread, images);
+                informationWindow.refreshWholesaleStore(wholesaleStoreThread);
                 break;
         }
     }

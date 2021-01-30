@@ -5,37 +5,48 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Car {
+
     private String brand;
     private double gas;
     private double gasBurnRate;
     private double tankCapacity;
-    
-    Car(String b, double g, double gbr, int tc){
-        brand = b;
-        gas = g;
-        gasBurnRate = gbr;
-        tankCapacity = tc;
+
+    Car(String brand, double gas, double gasBurnRate, int tankCapacity) {
+        this.brand = brand;
+        this.gas = gas;
+        this.gasBurnRate = gasBurnRate;
+        this.tankCapacity = tankCapacity;
     }
-    
-    public String getBrand(){
+
+    public String getBrand() {
         return brand;
     }
-    public double getGas(){
+
+    public double getGas() {
         return gas;
     }
-    public void burnGas(int distance){
-        gas -= gasBurnRate*distance;
+
+    /**
+     * Burning gas with proportional distance traveled.
+     *
+     * @param distance distance traveled
+     */
+    public void burnGas(int distance) {
+        gas -= gasBurnRate * distance;
     }
-    public void fillTank(){
-        while(gas < tankCapacity){
-            gas+=1;
+
+    /**
+     * Filling tank when on stop.
+     */
+    public void fillTank() {
+        while (gas < tankCapacity) {
+            gas += 1;
             try {
-                sleep(20);
+                sleep(80);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
-    
+
 }

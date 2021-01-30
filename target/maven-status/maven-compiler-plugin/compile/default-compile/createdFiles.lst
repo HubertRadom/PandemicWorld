@@ -1,4 +1,3 @@
-pandemicworld\Path.class
 pandemicworld\Painter.class
 pandemicworld\ControlPanel.class
 pandemicworld\Product.class
@@ -6,7 +5,6 @@ pandemicworld\App.class
 pandemicworld\InformationWindow$1.class
 pandemicworld\Shop.class
 pandemicworld\Intersection.class
-pandemicworld\Map.class
 pandemicworld\Person.class
 pandemicworld\InformationWindow$3.class
 pandemicworld\RetailShopThread.class

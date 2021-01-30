@@ -7,43 +7,67 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Product {
+
     private int ID;
     private String name;
     private String brand;
     private Date beforeDate;
-    
-    Product(int i, String n, String b, String dateString) {
-        ID = i;
-        name = n;
-        brand = b;
+    private double price;
+    private boolean onSale = false;
+
+    Product(int ID, String name, String brand, String dateString, double price) {
+        this.ID = ID;
+        this.name = name;
+        this.brand = brand;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         try {
-            beforeDate = sdf.parse(dateString);
+            this.beforeDate = sdf.parse(dateString);
         } catch (ParseException ex) {
             Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    Product(int i, String n, String b, Date date) {
-        ID = i;
-        name = n;
-        brand = b;
-        beforeDate = date;
+
+    Product(int ID, String name, String brand, Date date, double price) {
+        this.ID = ID;
+        this.name = name;
+        this.brand = brand;
+        this.beforeDate = date;
+        this.price = price;
     }
-    
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double p) {
+        this.price = p;
+    }
+
     public Date checkDate() {
         return beforeDate;
     }
-    public int getID(){
+
+    public int getID() {
         return ID;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    public String getBrand(){
+
+    public void onSale() {
+        onSale = true;
+    }
+
+    public boolean getOnSale() {
+        return onSale;
+    }
+
+    public String getBrand() {
         return brand;
     }
-    public Date getBeforeDate(){
+
+    public Date getBeforeDate() {
         return beforeDate;
     }
 }

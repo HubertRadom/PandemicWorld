@@ -2,21 +2,19 @@ package pandemicworld;
 
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Intersection {
-    //private Position position;
+
     private Position downLeftCorner;
     private Position upRightCorner;
-    private ArrayList<ClientThread>clientThreadList;
-    private ArrayList<SupplierThread>supplierThreadList;
+    private ArrayList<ClientThread> clientThreadList;
+    private ArrayList<SupplierThread> supplierThreadList;
     private boolean available = true;
     private Intersection thisInter = this;
-    
-    Intersection(Position dl, Position ur, ArrayList<SupplierThread>suppliterThreadList, ArrayList<ClientThread>clientThreadList) {
-       // position = p;
+
+    Intersection(Position dl, Position ur, ArrayList<SupplierThread> suppliterThreadList, ArrayList<ClientThread> clientThreadList) {
         downLeftCorner = dl;
         upRightCorner = ur;
         this.clientThreadList = clientThreadList;
@@ -24,90 +22,84 @@ public class Intersection {
         DeadlockDetector dead = new DeadlockDetector();
         dead.start();
     }
-    
-    public Position getDL(){
-        return downLeftCorner;
-    }
-    //public Position getPosition(){
-    //    return position;
-    //}
-    public boolean atIntersection(Position pos){
-        if(pos.getX() <  downLeftCorner.getX() || pos.getX() >  upRightCorner.getX()){
+
+    /**
+     * Checks if person is on intersection.
+     *
+     * @param pos position of client / supplier
+     *
+     */
+    public boolean atIntersection(Position pos) {
+        if (pos.getX() < downLeftCorner.getX() || pos.getX() > upRightCorner.getX()) {
             return false;
         }
-        if(pos.getY() >  downLeftCorner.getY() || pos.getY() <  upRightCorner.getY()){
+        if (pos.getY() > downLeftCorner.getY() || pos.getY() < upRightCorner.getY()) {
             return false;
         }
         return true;
     }
-    
+
+    /**
+     * Allows only one person to enter intersection.
+     */
     public synchronized void enter() {
         while (available == false) {
-           try {
-              wait();
-              
-           } catch (InterruptedException e) {}
+            try {
+                wait();
+
+            } catch (InterruptedException e) {
+            }
         }
-        //System.out.println("enter");
-        //sleep(1000);
-        
         available = false;
         notifyAll();
     }
+
+    /**
+     * Free up space on intersection.
+     */
     public synchronized void leave() {
-      //while (available == true) {
-      //   try {
-       ///     wait();
-            
-      //   } catch (InterruptedException e) { } 
-     // }
-      
-      //System.out.println("leave");
-      //System.out.println("leave");
-      available = true;
+        available = true;
         try {
             sleep(20);
         } catch (InterruptedException ex) {
             Logger.getLogger(Intersection.class.getName()).log(Level.SEVERE, null, ex);
         }
-      //System.out.println(available);
-      notifyAll();
-   }
-    
-    public void setAvailable(boolean available){
+        notifyAll();
+    }
+
+    public void setAvailable(boolean available) {
         this.available = available;
     }
-    public boolean getAvailable(){
+
+    public boolean getAvailable() {
         return available;
     }
-    
+
+    /**
+     * Deletes object on intersection when nothing changes after 10 seconds.
+     */
     class DeadlockDetector extends Thread {
+
         @Override
-        public void run(){
-            while(true){
-                
-                
+        public void run() {
+            while (true) {
                 try {
                     double start = System.currentTimeMillis();
                     double finish = System.currentTimeMillis();
-                    
-                    
-                    
-                    while(available == false){
-                        if(finish-start>10000){
-                            System.out.println("reset");
-                            for(ClientThread c: clientThreadList){
-                                if(c.getClient().getCurrentIntersection() == thisInter && c.getClient().getAtIntersection()){
+
+                    while (available == false) {
+                        if (finish - start > 10000) {
+                            for (ClientThread c : clientThreadList) {
+                                if (c.getClient().getCurrentIntersection() == thisInter && c.getClient().getAtIntersection()) {
                                     c.stop();
                                     c.getIcon().setVisible(false);
                                     c.getClient().resetPosition();
                                     leave();
-                                    System.out.println("del");
-                                    
+
                                 }
                             }
-                            for(SupplierThread s: supplierThreadList){
-                                if(s.getSupplier().getCurrentIntersection() == thisInter && s.getSupplier().getAtIntersection()){
+                            for (SupplierThread s : supplierThreadList) {
+                                if (s.getSupplier().getCurrentIntersection() == thisInter && s.getSupplier().getAtIntersection()) {
                                     s.stop();
                                     s.getIcon().setVisible(false);
                                     s.getSupplier().resetPosition();
@@ -115,14 +107,12 @@ public class Intersection {
                                 }
                             }
                             available = true;
-                            
+
                         }
                         finish = System.currentTimeMillis();
                         sleep(3);
                     }
-                    
-                    
-                    
+
                     sleep(2000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Intersection.class.getName()).log(Level.SEVERE, null, ex);
