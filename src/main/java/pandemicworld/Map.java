@@ -30,30 +30,30 @@ public class Map extends JPanel {
     private ArrayList<Intersection> area3;
     private ArrayList<Intersection> area4;
 
-    private ImageIcon backgroundImage = new ImageIcon("images/mapanew.png");
+    private ImageIcon backgroundImage = new ImageIcon("src/main/resources/images/mapanew.png");
 
-    private ImageIcon healthyImage = new ImageIcon("images/healthy.png");
-    private ImageIcon healthyMaskImage = new ImageIcon("images/healthymask.png");
-    private ImageIcon sickImage = new ImageIcon("images/sick.png");
-    private ImageIcon sickMaskImage = new ImageIcon("images/sickmask.png");
+    private ImageIcon healthyImage = new ImageIcon("src/main/resources/images/healthy.png");
+    private ImageIcon healthyMaskImage = new ImageIcon("src/main/resources/images/healthymask.png");
+    private ImageIcon sickImage = new ImageIcon("src/main/resources/images/sick.png");
+    private ImageIcon sickMaskImage = new ImageIcon("src/main/resources/images/sickmask.png");
 
-    private ImageIcon ferrariDownImage = new ImageIcon("images/ferraridown.png");
-    private ImageIcon ferrariUpImage = new ImageIcon("images/ferrariup.png");
-    private ImageIcon ferrariLeftImage = new ImageIcon("images/ferrarileft.png");
-    private ImageIcon ferrariRightImage = new ImageIcon("images/ferrariright.png");
+    private ImageIcon ferrariDownImage = new ImageIcon("src/main/resources/images/ferraridown.png");
+    private ImageIcon ferrariUpImage = new ImageIcon("src/main/resources/images/ferrariup.png");
+    private ImageIcon ferrariLeftImage = new ImageIcon("src/main/resources/images/ferrarileft.png");
+    private ImageIcon ferrariRightImage = new ImageIcon("src/main/resources/images/ferrariright.png");
 
-    private ImageIcon golfDownImage = new ImageIcon("images/golfdown.png");
-    private ImageIcon golfUpImage = new ImageIcon("images/golfup.png");
-    private ImageIcon golfLeftImage = new ImageIcon("images/golfleft.png");
-    private ImageIcon golfRightImage = new ImageIcon("images/golfright.png");
+    private ImageIcon golfDownImage = new ImageIcon("src/main/resources/images/golfdown.png");
+    private ImageIcon golfUpImage = new ImageIcon("src/main/resources/images/golfup.png");
+    private ImageIcon golfLeftImage = new ImageIcon("src/main/resources/images/golfleft.png");
+    private ImageIcon golfRightImage = new ImageIcon("src/main/resources/images/golfright.png");
 
-    private ImageIcon carDownImage = new ImageIcon("images/cardown.png");
-    private ImageIcon carUpImage = new ImageIcon("images/carup.png");
-    private ImageIcon carLeftImage = new ImageIcon("images/carleft.png");
-    private ImageIcon carRightImage = new ImageIcon("images/carright.png");
+    private ImageIcon carDownImage = new ImageIcon("src/main/resources/images/cardown.png");
+    private ImageIcon carUpImage = new ImageIcon("src/main/resources/images/carup.png");
+    private ImageIcon carLeftImage = new ImageIcon("src/main/resources/images/carleft.png");
+    private ImageIcon carRightImage = new ImageIcon("src/main/resources/images/carright.png");
 
-    private ImageIcon retailShopImage = new ImageIcon("images/retailshop.png");
-    private ImageIcon wholesaleStoreImage = new ImageIcon("images/wholesalestore.png");
+    private ImageIcon retailShopImage = new ImageIcon("src/main/resources/images/retailshop.png");
+    private ImageIcon wholesaleStoreImage = new ImageIcon("src/main/resources/images/wholesalestore.png");
 
     private HashMap<String, Street> sidewalkMap;
     private HashMap<String, Street> roadMap;
